@@ -1,23 +1,18 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-import { TeamsPage } from '../teams/teams';
-
 @IonicPage()
 @Component({
-  selector: 'page-tournaments',
-  templateUrl: 'tournaments.html',
+  selector: 'page-standings',
+  templateUrl: 'standings.html',
 })
-export class TournamentsPage {
+export class StandingsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TournamentsPage');
+    console.log('ionViewDidLoad StandingsPage');
   }
 
-  itemTapped(){
-    this.navCtrl.push(TeamsPage);
-  }
 }
