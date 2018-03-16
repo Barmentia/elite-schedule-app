@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 export class EliteApi {
 
   private baseUrl = 'https://elite-schedule-app-8f886.firebaseio.com'
-  private CurrentTourney: any = {};
+  private currentTourney: any = {};
 
   constructor(public http: HttpClient) {
 
@@ -23,9 +23,13 @@ export class EliteApi {
   getTournamentData(tourneId): Observable<any> {
     return this.http.get(`${this.baseUrl}/tournaments-data/${tourneId}.json`)
       .map(response => {
-        this.CurrentTourney = response;
-        return this.CurrentTourney;
+        this.currentTourney = response;
+        return this.currentTourney;
       })
+  }
+
+  getCurrentTourney() {
+    return this.currentTourney;
   }
 
 }
