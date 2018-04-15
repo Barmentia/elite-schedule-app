@@ -5,6 +5,7 @@ import { GamePage } from '../game/game';
 
 import * as _ from 'lodash';
 import moment from 'moment';
+import { UserSettings } from '../../providers/user-settings/user-settings';
 
 @Component({
   selector: 'page-team-detail',
@@ -25,6 +26,7 @@ export class TeamDetailPage {
     private alertController: AlertController, 
     public navCtrl: NavController, 
     public navParams: NavParams, 
+    private userSettings: UserSettings,
     private eliteApi: EliteApi) { }
 
   ionViewDidLoad() {
@@ -53,7 +55,7 @@ export class TeamDetailPage {
     
     this.allGames = this.games;
     this.teamStanding = _.find(this.tourneyData.standings, { 'teamId': this.team.id });
-    //this.userSettings.isFavoriteTeam(this.team.id).then(value => this.isFollowing = value);
+    this.userSettings.isFavoriteTeam(this.team.id).then(value => this.isFollowing = value);
   }
 
   getScoreDisplay(isTeam1, team1Score, team2Score) {
@@ -100,7 +102,7 @@ export class TeamDetailPage {
             text: 'Yes',
             handler: () => {
               this.isFollowing = false;
-              // TODO: persist data
+              this.userSettings.unfavoriteTeam(this.team);
 
               let toast = this.toastController.create({
                 message: 'You have unfollowed this team.',
@@ -116,7 +118,14 @@ export class TeamDetailPage {
       confirm.present();
     } else {
       this.isFollowing = true;
-      // TODO: persist data 
+      this.userSettings.favoriteTeam(this.team, this.tourneyData.tournament.id, this.tourneyData.tournament.name);
     }
-  } 
+  }
+
+  refreshAll(refresher){
+    this.eliteApi.refreshCurrentTourney().subscribe(() => {
+      refresher.complete();
+      this.ionViewDidLoad();
+    });
+  }
 }
