@@ -14,17 +14,6 @@ import { UserSettings } from '../../providers/user-settings/user-settings';
 export class MyTeamsPage {
 
   favorites = [];
-    // {
-    //     team: { id: 6182, name: 'HC Elite 7th', coach: 'Michelotti' },
-    //     tournamentId: '89e13aa2-ba6d-4f55-9cc2-61eba6172c63',
-    //     tournamentName: 'March Madness Tournament'
-    // },
-    // {
-    //     team: { id: 805, name: 'HC Elite', coach: 'Michelotti' },
-    //     tournamentId: '98c6857e-b0d1-4295-b89e-2d95a45437f2',
-    //     tournamentName: 'Holiday Hoops Challenge'
-    // }
-  
 
   constructor(
     public nav: NavController, 
@@ -52,6 +41,7 @@ export class MyTeamsPage {
   }
 
   ionViewDidEnter() {
-    this.favorites = this.userSettings.getAllFavorites();
+    //this.favorites = this.userSettings.getAllFavorites();
+    this.userSettings.getAllFavorites().then(favs => this.favorites = favs);
   }
 }

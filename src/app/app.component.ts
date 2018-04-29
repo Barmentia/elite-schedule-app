@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Events, Nav, Platform, LoadingController } from 'ionic-angular';
+import { Nav, Platform, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -21,7 +21,6 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
 
   constructor(
-    private events: Events,
     public platform: Platform, 
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen, 
@@ -39,10 +38,14 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
-      this.refreshFavorites();
+      //this.refreshFavorites();
       this.splashScreen.hide();
 
-      this.events.subscribe('favorites:changed', () => this.refreshFavorites());
+      //this.events.subscribe('favorites:changed', () => this.refreshFavorites());
+      
+      this.userSettings.initStorage().then(() => {
+        this.rootPage = MyTeamsPage;
+      });
     });
   }
 
@@ -52,9 +55,9 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
-  refreshFavorites(){
-    this.favoriteTeams = this.userSettings.getAllFavorites();
-  }
+  // refreshFavorites(){
+  //   this.favoriteTeams = this.userSettings.getAllFavorites();
+  // }
 
   goHome() {
     this.nav.push(MyTeamsPage);
